@@ -14,8 +14,11 @@
 #include "opencv2/core/utility.hpp"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
 
 using namespace cv;
+using namespace std;
 
 static void print_help()
 {
@@ -158,7 +161,6 @@ int main(int argc, char** argv)
     int color_mode = alg == STEREO_BM ? 0 : -1;
     Mat img1 = imread(img1_filename, color_mode);
     Mat img2 = imread(img2_filename, color_mode);
-
     if (img1.empty())
     {
         printf("Command-line parameter error: could not load the first input image file\n");
@@ -179,7 +181,7 @@ int main(int argc, char** argv)
         resize(img2, temp2, Size(), scale, scale, method);
         img2 = temp2;
     }
-
+    
     Size img_size = img1.size();
 
     Rect roi1, roi2;
@@ -216,7 +218,7 @@ int main(int argc, char** argv)
         fs["R"] >> R;
         fs["T"] >> T;
    } else {
-        M1 = (Mat_<double>(3,3)<< 780,96374, 0., 478.73296,
+        M1 = (Mat_<double>(3,3)<< 780.96374, 0., 478.73296,
              0., 782.08564, 265.79692,
              0., 0., 1.0);
         D1 = (Mat_<double>(5,1)<< 0.13258, -0.35049, 0.00026, 0.00496, 0.0000);
@@ -228,6 +230,12 @@ int main(int argc, char** argv)
         Rodrigues(Rv, R);
         T = (Mat_<double>(3,1)<< -56.99920, -47.64819, 213.37935);
    }
+        cout << "M1 = " << endl << " " << M1 << endl << endl;   	 
+        cout << "D1 = " << endl << " " << D1 << endl << endl;   	 
+        cout << "M2 = " << endl << " " << M2 << endl << endl;   	 
+        cout << "D2 = " << endl << " " << D2 << endl << endl;   	 
+        cout << "Rv = " << endl << " " << Rv << endl << endl;   	 
+        cout << "R = " << endl << " " << R << endl << endl;   	 
         stereoRectify( M1, D1, M2, D2, img_size, R, T, R1, R2, P1, P2, Q, CALIB_ZERO_DISPARITY, -1, img_size, &roi1, &roi2 );
 
         Mat map11, map12, map21, map22;
@@ -240,6 +248,13 @@ int main(int argc, char** argv)
 
         img1 = img1r;
         img2 = img2r;
+        namedWindow("left", 1);
+        imshow("left", img1);
+        namedWindow("right", 1);
+        imshow("right", img2);
+        waitKey();
+
+
  
     numberOfDisparities = numberOfDisparities > 0 ? numberOfDisparities : ((img_size.width/8) + 15) & -16;
 
