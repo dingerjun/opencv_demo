@@ -35,6 +35,7 @@ int main(int argc, char** argv)
 */
 //打开视频文件：其实就是建立一个VideoCapture结构
 //        rm<<0.01857,   0.00525,  -0.03124;
+/*
         cv::Mat_<double> rm(3,1);
         rm<<0.04034,   0.00395,  -0.00853;
         cv::Mat_<double> Rm(3,3);
@@ -47,7 +48,7 @@ int main(int argc, char** argv)
         }
 fs<<"R"<<Rm;
 fs.release();
-
+*/
 
 	VideoCapture capture(argv[1]);
 	//检测是否正常打开:成功打开时，isOpened返回ture
@@ -85,7 +86,7 @@ fs.release();
 	//承载每一帧的图像
 	Mat frame;
 	//显示每一帧的窗口
-	namedWindow("Extracted frame");
+	//namedWindow("Extracted frame");
 	//两帧间的间隔时间:
 	int delay = 1000/rate;
 
@@ -131,7 +132,7 @@ fs.release();
 
 
 		//这里加滤波程序
-                
+ /*               
 		imshow("Extracted frame",frame);
                 cvMoveWindow("Extracted frame", 100,100);
 		imshow("left frame",leftImage);
@@ -139,11 +140,12 @@ fs.release();
 		imshow("right frame",rightImage);
                 cvMoveWindow("right frame", 1100,100);
 //		filter2D(frame,frame,-1,kernel);
+*/
 
 //		imshow("after filter",frame);
 
 		cout<<"正在读取第"<<currentFrame<<"帧"<<endl;
-                if ( currentFrame %5 == 0) {
+                //if ( currentFrame %5 == 0) {
 		int c = waitKey();//当delay ≤ 0时会永远等待；当delay>0时会等待delay毫秒
 	//	当时间结束前没有按键按下时，返回值为-1；否则返回按键
 
@@ -158,7 +160,7 @@ fs.release();
 		{
 			waitKey(0);
 		}
-                }
+                //}
 		currentFrame++;
 
 /*
@@ -183,7 +185,7 @@ fs.release();
 //	Mat outImage;  
 //	feature.saveMatches(leftImage, queryKeypoints, rightImage, trainKeypoints, matches, "../");  
 */ 
-/*
+
 {
   Mat img_1, img_2;
   //-- Step 1: Detect the keypoints using SURF Detector
@@ -238,9 +240,9 @@ fs.release();
   //drawMatches( img_1, keypoints_1, img_2, keypoints_2, matches, img_matches );
   //drawMatches( leftImage, keypoints_1, rightImage, keypoints_2, matches, img_matches );
   //-- Show detected matches
-  imshow("Matches", img_matches );
-/* 
+  //imshow("Matches", img_matches );
 
+/*
   std::vector<KeyPoint> keypoints_1, keypoints_2;
 
   cvtColor( leftImage, img_1, COLOR_BGR2GRAY );
@@ -256,8 +258,8 @@ fs.release();
   //-- Show detected (drawn) keypoints
   imshow("Keypoints 1", img_keypoints_1 );
   imshow("Keypoints 2", img_keypoints_2 );
-}
 */
+}
 	
 	}
 	//关闭视频文件
